@@ -102,6 +102,11 @@ public:
    * @param meas_package The measurement at k+1
    */
   void UpdateRadar(MeasurementPackage meas_package);
+
+  VectorXd CartesianToPolar(const VectorXd &cartesian);
+
+  MatrixXd LaserHFunction(MatrixXd Xsig_pred);
+  MatrixXd RadarHFunction(MatrixXd Xsig_pred);
 };
 
 #endif /* UKF_H */

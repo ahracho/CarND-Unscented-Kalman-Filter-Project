@@ -23,7 +23,7 @@ public:
   * A helper method to calculate RMSE.
   */
   VectorXd CalculateRMSE(const vector<VectorXd> &estimations, const vector<VectorXd> &ground_truth);
-
+  static double ThetaValueCorrection(double theta);
 };
 
 #endif /* TOOLS_H_ */
