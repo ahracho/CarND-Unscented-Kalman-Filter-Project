@@ -120,7 +120,7 @@ x_[1] = measurements[1];
 
 Radar data contains rho, theta and rho_dot, so it should be converted into px, py value.  
 ~~~cpp
-// FusionEKF.cpp : Line 95 - 99
+// ukf.cpp : Line 95 - 99
 VectorXd measurements = meas_package.raw_measurements_;
 float rho = measurements[0];
 float theta = measurements[1];
@@ -137,10 +137,10 @@ Because we have information to initialize px and py value, for covariance matrix
   // initial covariance matrix
   P_ = MatrixXd(5, 5);
   P_ << 0.1, 0, 0, 0, 0,
-            0, 0.1, 0, 0, 0,
-            0, 0, 1, 0, 0,
-            0, 0, 0, 1, 0,
-            0, 0, 0, 0, 1;
+        0, 0.1, 0, 0, 0,
+        0, 0, 1, 0, 0,
+        0, 0, 0, 1, 0,
+        0, 0, 0, 0, 1;
 ~~~
 
 #### 3. Kalman Filter algorithm first predicts then updates.
@@ -169,7 +169,7 @@ H << 1, 0, 0, 0, 0,
         0, 1, 0, 0, 0;
 MatrixXd R(2, 2);
 R << std_laspx_ * std_laspx_, 0, 
-        0, std_laspy_ * std_laspy_;
+    0, std_laspy_ * std_laspy_;
 
 VectorXd z = meas_package.raw_measurements_ - H * x_;
 S = H * P_ * H.transpose() + R;
@@ -229,7 +229,7 @@ To meet RMSE rubric, I needed to tune initial state of x and P, and standard dev
 
 ![image5]  
 
-Chaning `std_a_` and `std_yawdd_` didn't work for me, so I tried find proper initial value. I used Identity matrix for inital P, and I lowered σ​2px and σ​2py since I can calculate px and py value from first measurement.  
+Just changing `std_a_` and `std_yawdd_` didn't work for me, so I tried find proper initial value. I used Identity matrix for inital P, and I lowered σ​2px and σ​2py since I can calculate px and py value from first measurement.  
 
 With P value [0.1, 0, 0, 0, 0;  0, 0.1, 0, 0, 0; 0, 0, 1, 0, 0;  0, 0, 0, 1, 0;  0, 0, 0, 0, 1;], I get best result as below.  
 
